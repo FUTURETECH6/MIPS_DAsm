@@ -127,7 +127,7 @@ int mips_disassemble(mips_instruction_t *instruction, uint32_t number) {
         switch (op_upper) {
             case MIPS_ROOT_TYPE_JUMP_OR_BRANCH:
                 if (op_lower < 4) {  // Jump
-                    sprintf(instruction->arguments, "%d", target);
+                    sprintf(instruction->arguments, "0x%x", target);
                     instruction->type = MIPS_TYPE_J;
                 } else {
                     if (op_lower < 6) {  // Branch
