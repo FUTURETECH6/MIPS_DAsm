@@ -35,14 +35,15 @@ int main(int argc, char **argv) {
         if (line[0] == '0' && line[1] == 'x') {
             sscanf(line, "%x", &number);
         } else {
-            number = atoi(line);
+            // number = atoi(line);
+            sscanf(line, "%x", &number);
         }
 
         printf("%2x", line_no);
 
         if (mips_disassemble(instruction, number)) {
             printf(" (%c-type) ", instruction->type);
-            printf("[%10u:0x%08x] ", number, number);
+            printf("[0x%08x] ", number);
             printf("%s %s", instruction->name, instruction->arguments);
         } else {
             printf("Invalid instruction");

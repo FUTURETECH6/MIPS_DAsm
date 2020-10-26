@@ -11,7 +11,8 @@ int mips_disassemble(mips_instruction_t *instruction, uint32_t number) {
      * In the MIPS architecture, all machine instructions are
      * represented as 32-bit numbers
      */
-    uint8_t op, op_lower, op_upper, rs, rd, rt, rt_upper, rt_lower, sa, funct, funct_upper, funct_lower;
+    uint8_t op, op_lower, op_upper, rs, rd, rt, rt_upper, rt_lower, sa, funct, funct_upper,
+        funct_lower;
     int16_t imm;
     int32_t target;
 
@@ -55,8 +56,8 @@ int mips_disassemble(mips_instruction_t *instruction, uint32_t number) {
     }
 
     if (instruction->name == NULL) {
-        printf("Did not find name for OP 0x%x:%d[%d,%d] ; FUNCT 0x%x:%d[%d,%d]\n", op, op, op_upper, op_lower, funct,
-            funct, funct_upper, funct_lower);
+        printf("Did not find name for OP 0x%x:%d[%d,%d] ; FUNCT 0x%x:%d[%d,%d]\n", op, op,
+            op_upper, op_lower, funct, funct, funct_upper, funct_lower);
         return 0;
     }
 
@@ -68,10 +69,11 @@ int mips_disassemble(mips_instruction_t *instruction, uint32_t number) {
         switch (funct_upper) {
             case MIPS_REG_TYPE_SHIFT_OR_SHIFTV:
                 if (funct_lower < 4) {  // Shift
-                    sprintf(instruction->arguments, "%s, %s, %d", MIPS_REGISTER_NAMES[rd], MIPS_REGISTER_NAMES[rt], sa);
+                    sprintf(instruction->arguments, "%s, %s, %d", MIPS_REGISTER_NAMES[rd],
+                        MIPS_REGISTER_NAMES[rt], sa);
                 } else {  // ShiftV
-                    sprintf(instruction->arguments, "%s, %s, %s", MIPS_REGISTER_NAMES[rd], MIPS_REGISTER_NAMES[rt],
-                        MIPS_REGISTER_NAMES[rs]);
+                    sprintf(instruction->arguments, "%s, %s, %s", MIPS_REGISTER_NAMES[rd],
+                        MIPS_REGISTER_NAMES[rt], MIPS_REGISTER_NAMES[rs]);
                 }
                 break;
 
@@ -79,7 +81,8 @@ int mips_disassemble(mips_instruction_t *instruction, uint32_t number) {
                 if (funct_lower < 1) {
                     sprintf(instruction->arguments, "%s", MIPS_REGISTER_NAMES[rs]);
                 } else {
-                    sprintf(instruction->arguments, "%s, %s", MIPS_REGISTER_NAMES[rd], MIPS_REGISTER_NAMES[rs]);
+                    sprintf(instruction->arguments, "%s, %s", MIPS_REGISTER_NAMES[rd],
+                        MIPS_REGISTER_NAMES[rs]);
                 }
                 break;
 
@@ -92,13 +95,14 @@ int mips_disassemble(mips_instruction_t *instruction, uint32_t number) {
                 break;
 
             case MIPS_REG_TYPE_DIVMULT:
-                sprintf(instruction->arguments, "%s, %s", MIPS_REGISTER_NAMES[rs], MIPS_REGISTER_NAMES[rt]);
+                sprintf(instruction->arguments, "%s, %s", MIPS_REGISTER_NAMES[rs],
+                    MIPS_REGISTER_NAMES[rt]);
                 break;
 
             case MIPS_REG_TYPE_ARITHLOG_GTE:
             case MIPS_REG_TYPE_ARITHLOG_GTE + 1:
-                sprintf(instruction->arguments, "%s, %s, %s", MIPS_REGISTER_NAMES[rd], MIPS_REGISTER_NAMES[rs],
-                    MIPS_REGISTER_NAMES[rt]);
+                sprintf(instruction->arguments, "%s, %s, %s", MIPS_REGISTER_NAMES[rd],
+                    MIPS_REGISTER_NAMES[rs], MIPS_REGISTER_NAMES[rt]);
                 break;
 
             default: return 0;
@@ -108,15 +112,17 @@ int mips_disassemble(mips_instruction_t *instruction, uint32_t number) {
         switch (funct_upper) {
             case MIPS_REG_C_TYPE_MULTIPLY:
                 if (funct_lower == 2) {
-                    sprintf(instruction->arguments, "%s, %s, %s", MIPS_REGISTER_NAMES[rd], MIPS_REGISTER_NAMES[rs],
-                        MIPS_REGISTER_NAMES[rt]);
+                    sprintf(instruction->arguments, "%s, %s, %s", MIPS_REGISTER_NAMES[rd],
+                        MIPS_REGISTER_NAMES[rs], MIPS_REGISTER_NAMES[rt]);
                 } else {
-                    sprintf(instruction->arguments, "%s, %s", MIPS_REGISTER_NAMES[rs], MIPS_REGISTER_NAMES[rt]);
+                    sprintf(instruction->arguments, "%s, %s", MIPS_REGISTER_NAMES[rs],
+                        MIPS_REGISTER_NAMES[rt]);
                 }
                 break;
 
             case MIPS_REG_C_TYPE_COUNT:
-                sprintf(instruction->arguments, "%s, %s", MIPS_REGISTER_NAMES[rd], MIPS_REGISTER_NAMES[rs]);
+                sprintf(instruction->arguments, "%s, %s", MIPS_REGISTER_NAMES[rd],
+                    MIPS_REGISTER_NAMES[rs]);
                 break;
         }
 
@@ -131,19 +137,20 @@ int mips_disassemble(mips_instruction_t *instruction, uint32_t number) {
                     instruction->type = MIPS_TYPE_J;
                 } else {
                     if (op_lower < 6) {  // Branch
-                        sprintf(instruction->arguments, "%s, %s, %d", MIPS_REGISTER_NAMES[rs], MIPS_REGISTER_NAMES[rt],
-                            imm);
+                        sprintf(instruction->arguments, "%s, %s, %d",
+                            MIPS_REGISTER_NAMES[rs], MIPS_REGISTER_NAMES[rt], imm);
                     } else {  // BranchZ
                         // dbg("imm", imm);
-                        sprintf(instruction->arguments, "%s, %d", MIPS_REGISTER_NAMES[rs], imm);
+                        sprintf(
+                            instruction->arguments, "%s, %d", MIPS_REGISTER_NAMES[rs], imm);
                     }
                 }
                 break;
 
             case MIPS_ROOT_TYPE_ARITHLOGI:
                 if (op_lower < 7) {
-                    sprintf(
-                        instruction->arguments, "%s, %s, %d", MIPS_REGISTER_NAMES[rt], MIPS_REGISTER_NAMES[rs], imm);
+                    sprintf(instruction->arguments, "%s, %s, %d", MIPS_REGISTER_NAMES[rt],
+                        MIPS_REGISTER_NAMES[rs], imm);
                 } else {
                     sprintf(instruction->arguments, "%s, %d", MIPS_REGISTER_NAMES[rt], imm);
                 }
@@ -153,7 +160,8 @@ int mips_disassemble(mips_instruction_t *instruction, uint32_t number) {
             case MIPS_ROOT_TYPE_LOADSTORE_GTE + 1:
             case MIPS_ROOT_TYPE_LOADSTORE_GTE + 2:
             case MIPS_ROOT_TYPE_LOADSTORE_GTE + 3:
-                sprintf(instruction->arguments, "%s, %d(%s)", MIPS_REGISTER_NAMES[rt], imm, MIPS_REGISTER_NAMES[rs]);
+                sprintf(instruction->arguments, "%s, %d(%s)", MIPS_REGISTER_NAMES[rt], imm,
+                    MIPS_REGISTER_NAMES[rs]);
                 break;
 
             default: return 0;

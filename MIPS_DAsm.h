@@ -9,40 +9,48 @@ typedef struct {
 
 int mips_disassemble(mips_instruction_t *instruction_buffer, uint32_t number);
 
-static const char *const MIPS_REGISTER_NAMES[32] = {
-    "$zero",  // Hardware constant 0
-    "$at",    // Reserved for assembler
-    "$v0",    // Return values
-    "$v1",
-    "$a0",  // Arguments
-    "$a1", "$a2", "$a3",
-    "$t0",  // Temporaries
-    "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7",
-    "$s0",  // Saved values
-    "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7",
-    "$t8",  // Cont. Saved values
-    "$t9",
-    "$k0",  // Reserved for OS
-    "$k1",
-    "$gp",  // Global pointer
-    "$sp",  // Stack Pointer
-    "$fp",  // Frame Pointer
-    "$ra"   // Return Adress
-};
+// static const char *const MIPS_REGISTER_NAMES[32] = {
+//     "$zero",  // Hardware constant 0
+//     "$at",    // Reserved for assembler
+//     "$v0",    // Return values
+//     "$v1",
+//     "$a0",  // Arguments
+//     "$a1", "$a2", "$a3",
+//     "$t0",  // Temporaries
+//     "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7",
+//     "$s0",  // Saved values
+//     "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7",
+//     "$t8",  // Cont. Saved values
+//     "$t9",
+//     "$k0",  // Reserved for OS
+//     "$k1",
+//     "$gp",  // Global pointer
+//     "$sp",  // Stack Pointer
+//     "$fp",  // Frame Pointer
+//     "$ra"   // Return Adress
+// };
 
-static char *const MIPS_REGISTER_RT_INSTRUCTION_NAMES[4][8] = {
-    {"bltz", "bgez"}, {"tgei", "tgeiu", "tlti", "tltiu", "teqi", NULL, "tnei"}, {"bltzal", "bgezal"}};
+static const char *const MIPS_REGISTER_NAMES[32] = {"$0", "$1", "$2", "$3", "$4", "$5",
+    "$6", "$7", "$8", "$9", "$10", "$11", "$12", "$13", "$14", "$15", "$16", "$17", "$18",
+    "$19", "$20", "$21", "$22", "$23", "$24", "$25", "$26", "$27", "$28", "$29", "$30",
+    "$31"};
+
+static char *const MIPS_REGISTER_RT_INSTRUCTION_NAMES[4][8] = {{"bltz", "bgez"},
+    {"tgei", "tgeiu", "tlti", "tltiu", "teqi", NULL, "tnei"}, {"bltzal", "bgezal"}};
 
 static char *const MIPS_REGISTER_C_INSTRUCTION_NAMES[8][8] = {
     {"madd", "maddu", "mul", NULL, "msub", "msubu"}, {}, {}, {}, {"clz", "clo"}};
 
-static char *const MIPS_REGISTER_INSTRUCTION_NAMES[8][8] = {{"sll", NULL, "srl", "sra", "sllv", NULL, "srlv", "srav"},
-    {"jr", "jalr"}, {"mfhi", "mthi", "mflo", "mtlo"}, {"mult", "multu", "div", "divu"},
+static char *const MIPS_REGISTER_INSTRUCTION_NAMES[8][8] = {
+    {"sll", NULL, "srl", "sra", "sllv", NULL, "srlv", "srav"}, {"jr", "jalr"},
+    {"mfhi", "mthi", "mflo", "mtlo"}, {"mult", "multu", "div", "divu"},
     {"add", "addu", "sub", "subu", "and", "or", "xor", "nor"}, {NULL, NULL, "slt", "sltu"}};
 
-static char *const MIPS_ROOT_INSTRUCTION_NAMES[8][8] = {{NULL, NULL, "j", "jal", "beq", "bne", "blez", "bgtz"},
-    {"addi", "addiu", "slti", "sltiu", "andi", "ori", "xori", "lui"}, {}, {"llo", "lhi", "trap"},
-    {"lb", "lh", "lwl", "lw", "lbu", "lhu", "lwr"}, {"sb", "sh", "swl", "sw", NULL, NULL, "swr"}, {"ll"}, {"sc"}};
+static char *const MIPS_ROOT_INSTRUCTION_NAMES[8][8] = {
+    {NULL, NULL, "j", "jal", "beq", "bne", "blez", "bgtz"},
+    {"addi", "addiu", "slti", "sltiu", "andi", "ori", "xori", "lui"}, {},
+    {"llo", "lhi", "trap"}, {"lb", "lh", "lwl", "lw", "lbu", "lhu", "lwr"},
+    {"sb", "sh", "swl", "sw", NULL, NULL, "swr"}, {"ll"}, {"sc"}};
 
 #define MIPS_TYPE_R 'R'
 #define MIPS_TYPE_J 'J'
